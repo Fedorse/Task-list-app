@@ -5,9 +5,13 @@ const taskRoutes = require('./routes/taskRoutes');
 const server = express();
 const port = 3000;
 
+// pino log 
+//static
+
 server.use(express.static(path.join(__dirname, '../client'))); 
 server.use(express.json());
 server.use('/api', taskRoutes);
+
 
 connectToDb().then(() => {
     server.listen(port, () => {

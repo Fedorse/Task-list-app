@@ -19,3 +19,15 @@ exports.addTask = async (req, res) => {
         res.status(500).send(err.message);
     }
 };
+
+
+// REST API
+
+// /tasks
+// GET /tasks - get all tasks
+// POST /tasks - create task
+
+// /tasks/:id 
+// GET  /tasks/:id - get task detail
+// PUT /tasks/:id - update task
+// DELETE /tasks/:id - remove task
