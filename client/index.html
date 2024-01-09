@@ -9,13 +9,33 @@
 </head>
 <body>
     <div class="wrapper" >
-        <div class="list"></div>
+        <div class="list"> <h1>TEST</h1></div>
         <form  class="add-task" method="post">
                 <label class="label" for="name">Add you task</label>
                 <input class="title" type="text" name="titlTask" placeholder="input you title"  />
                 <textarea class="txtArea"   rows="6" name="descriptionTask"  placeholder="input you task"></textarea>
                     <input class="inpBtn" type="submit" value="add task">
         </form>
+        <div class="task-actions">
+            <button class="draftBtn">Save as Draft</button>
+            <button class="deleteBtn">Delete</button>
+        </div>
     </div>
+    <!-- <div class="wrapper">
+        <header>
+            <h1>Список задач</h1>
+        </header>
+        <main>
+            <div class="list"></div>
+            <form class="add-task" method="post">
+                <label class="label" for="titleTask">Добавьте вашу задачу</label>
+                <input class="title" type="text" id="titleTask" name="titlTask" placeholder="Введите название" />
+                <textarea class="txtArea" rows="6" name="descriptionTask" placeholder="Введите описание задачи"></textarea>
+                <input class="inpBtn" type="submit" value="Добавить задачу">
+            </form>
+            <button class="draftBtn">Сохранить в драфт</button>
+            <button class="deleteBtn">Удалить</button>
+        </main>
+    </div> -->
 </body>
 </html>
