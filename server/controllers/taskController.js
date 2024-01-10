@@ -1,4 +1,5 @@
 const { getDb } = require('../db');
+const { ObjectId } = require('mongodb');
 
 exports.getTasks = async (req, res) => {
     try {
@@ -23,8 +24,8 @@ exports.addTask = async (req, res) => {
 exports.getTaskById = async(req,res) => {
     try{
         const db = getDb()
-        const taskId = req.params.id;
-        const task = await db.collection('taskList').findOne({_id: taskId})
+        const taskId = new ObjectId(req.params.id);
+        const task = await db.collection('taskList').findOne({ _id: taskId })
 
         if(!task) {
             return res.status(404).send('Task not found')
@@ -38,7 +39,7 @@ exports.getTaskById = async(req,res) => {
 exports.updateTaskByID = async(req,res) => {
     try{
         const db = getDb()
-        const taskId = req.params.id
+        const taskId = new ObjectId(req.params.id);
         const result = await db.collection('taskList').updateOne (
             { _id: taskId },
             { $set: req.body }
@@ -57,7 +58,7 @@ exports.updateTaskByID = async(req,res) => {
 exports.removeTask = async (req, res) => {
     try {
         const db = getDb()
-        const taskId = req.params.id;
+        const taskId = new ObjectId(req.params.id);
         const result = await db.collection('taskList').deleteOne({ _id: taskId });
 
         if (result.deletedCount === 0) {
