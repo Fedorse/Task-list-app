@@ -1,6 +1,6 @@
 export const creatTask = async (data) => {
     try {
-        const response = await fetch('/api/addTask', {
+        const response = await fetch('/api/tasks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

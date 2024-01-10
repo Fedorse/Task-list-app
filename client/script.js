@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const getTasks = async () => {
         try {
-            const response = await fetch('/api/taskLists')
+            const response = await fetch('/api/tasks')
             if (!response.ok) {
                 throw new Error('Network response was not ok')
             }
