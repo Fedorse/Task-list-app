@@ -6,7 +6,7 @@ const server = express();
 const port = 3000;
 
 // pino log 
-//static
+//static cash
 
 server.use(express.static(path.join(__dirname, '../client'))); 
 server.use(express.json());

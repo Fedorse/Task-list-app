@@ -1,135 +1,299 @@
+* {
+    box-sizing: border-box;
+}
 body{
-    background-color: rgb(38, 37, 44);
+    background: linear-gradient( rgb(88, 92, 97), rgb(38, 36, 36));
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0px;
+
 }
 
 
-.wrapper{
+main {
     display: flex;
+    height: 100vh;
+
+
+}
+section {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
 }
 
 .list {
     display: flex;
-    background-color: #000000;
-    width: 18rem;
     flex-direction: column;
-    border-radius: 5px;
-    height: 45rem;
-
+    width: 15%;
+    height: 100vh;
+    margin: 0;
+    padding: 10px;
+    background-color: black;
+    list-style-type: none;
+    overflow-y: auto;
 
 }
+
+
 .task{
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    background-color: transparent; 
+    transition: background-color 0.3s;
     color: rgb(236, 239, 240);
-    margin-left: 10px;
-    
+    min-height: 30px; 
+    word-wrap: break-word; 
+
+
 }
+
+.task.selected {
+    background-color: rgb(74, 73, 73);
+}
+
+.task:not(.selected):hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+
 .add-task {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     height: 20rem;
     width: 70rem;
     
 }
 
-.label{
-    margin-bottom: 10px; 
-    margin-top: 10px;
-    font-size: 40px;
-    font-weight: bold;
-    line-height: 1.5; 
-    color: aliceblue;
+.app-title{
+    display: flex;
+    flex-direction: column;
+    font-size: 48px;
+    color: #acb0b4; 
     text-transform: uppercase;
-    
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
 
 }
 
 .title {
-    width: 70%; 
-    padding: 10px; 
-    margin-bottom: 5px; 
-    border: 1px solid #0b0b0b; 
-    border-radius: 4px; 
-    box-sizing: border-box; 
-    font-size: 16px; 
-    background-color: #fff2f2;
+    margin-bottom: 10px; 
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+    font-size: 16px;
+    resize: vertical;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
 
 }
 
 .txtArea {
-    width: 70%; 
-    padding: 10px; 
     margin-bottom: 10px; 
-    border: 1px solid #0b0b0b; 
-    border-radius: 4px; 
-    box-sizing: border-box; 
-    font-size: 16px; 
-    background-color: #ffffff;
-    
-
-
+    height: 65%;
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+    font-size: 16px;
+    resize: vertical; 
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s; 
 }
 
-.inpBtn{
-        width: auto;
-        padding: 10px 20px; 
-        border: 2px solid transparent;
-        border-radius: 5px;
-        background-color: #5f5f60;
+.txtArea:focus {
+    border-color: #a2a2a2;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); 
+    outline: none; 
+}
+
+
+.inpBtn {
+
+        background-color: #adadad; ;
         color: white;
-        font-size: 25px;
-        cursor: pointer;
-        transition: background-color 0.3s, border-color 0.3s;
+        padding: 10px 25px;
+        border: none;
         text-align: center;
-        align-self: flex-start;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        transition: all 0.3s;
+
+
+
     
     
 }
-.updateTask{
-    width: auto;
-    padding: 10px 20px; 
-    border: 2px solid transparent;
-    border-radius: 5px;
-    background-color: #5f5f60;
+.updateTask {
+    background-color: #adadad; 
     color: white;
-    font-size: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
+    padding: 10px 25px;
+    border: none;
     text-align: center;
-    align-self: flex-start;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+
 
 
 }
 .deleteBtn{
-    width: auto;
-    padding: 10px 20px; 
-    border: 2px solid transparent;
-    border-radius: 5px;
-    background-color: #5f5f60;
+    background-color: #adadad;
     color: white;
-    font-size: 25px;
+    padding: 10px 25px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-
-
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
 
 }
 
-.inpBtn:hover,
-.inpBtn:focus {
+.inpBtn:hover, .deleteBtn:hover, .updateTask:hover {
     background-color: #0f0f0f;
     border-color: #0f0f0f;
 }
 
-.inpBtn:active {
+.inpBtn:focus, .deleteBtn:focus, .updateTask:focus {
+    background-color: #0f0f0f;
+    border-color: #0f0f0f;
+}
+
+.inpBtn:active, .deleteBtn:active, .updateTask:active {
     background-color: #19191a;
     border-color: #1d1e1e;
 }
-
 .task-actions {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 10px;
 }
+
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between; 
+}
+
+
+
+
+
+@media screen and (max-width: 768px) {
+
+    .add-task {
+        align-items: stretch; 
+    }
+
+    .list {
+        width: 100%;
+        height: auto;
+        min-height: 100vh; 
+        background: black;
+    }
+
+    main {
+        flex-direction: column;
+        flex-direction: column-reverse; 
+        height: auto;
+    }
+
+    .add-task {
+        width: 95%;
+    }
+
+    .title, .txtArea {
+        width: 100%;
+    }
+    body, html {
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+    .add-task {
+        justify-content: space-evenly
+    }
+
+    .list {
+        width: 100%;
+        height: auto;
+        min-height: 100vh; 
+        background: black;
+    }
+
+    main {
+        flex-direction: column;
+        flex-direction: column-reverse; 
+        height: auto;
+    }
+
+    .add-task {
+        width: 95%;
+    }
+
+    .title, .txtArea {
+        width: 100%;
+    }
+    body, html {
+        max-width: 100vw;
+        overflow-x: hidden;
+    }}
+
+    @media screen and (min-width: 1024px) and (max-width: 1300px) {
+
+        .add-task {
+            justify-content: space-evenly
+
+        }
+    
+        .list {
+            width: 100%;
+            height: auto;
+            min-height: 100vh; 
+            background: black;
+        }
+    
+        main {
+            flex-direction: column;
+            flex-direction: column-reverse; 
+            height: auto;
+        }
+    
+        .add-task {
+            width: 95%;
+        }
+    
+        .title, .txtArea {
+            width: 100%;
+        }
+        body, html {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }}

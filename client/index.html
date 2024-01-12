@@ -5,38 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer type="module" src="script.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
     <title>ToDoList</title>
 </head>
 <body>
-    <div class="wrapper" >
-        <div class="list"> <h1>TEST</h1></div>
-        <form  class="add-task" method="post">
-                <label class="label" for="name">Add you task</label>
-                <input class="title" type="text" name="titlTask" placeholder="input you title"  />
-                <textarea class="txtArea"   rows="6" name="descriptionTask"  placeholder="input you task"></textarea>
-                <div class="form-buttons">
-                    <input class="inpBtn" type="submit" value="Save Task">
-                    <button type="button" class="updateTask"> update task </button>
-                    <button type="button" class="deleteBtn">Delete</button>
-                </div>
-        </form>
-
-    </div>
-    <!-- <div class="wrapper">
-        <header>
-            <h1>Список задач</h1>
-        </header>
-        <main>
-            <div class="list"></div>
-            <form class="add-task" method="post">
-                <label class="label" for="titleTask">Добавьте вашу задачу</label>
-                <input class="title" type="text" id="titleTask" name="titlTask" placeholder="Введите название" />
-                <textarea class="txtArea" rows="6" name="descriptionTask" placeholder="Введите описание задачи"></textarea>
-                <input class="inpBtn" type="submit" value="Добавить задачу">
+    <main>
+        <ol class="list"></ol>
+        <section>
+            <div class="app-title"></div>
+            <form  class="add-task" method="post">
+                    <input class="title" type="text" name="titlTask" placeholder="input you title"  />
+                    <textarea class="txtArea"   rows="6" name="descriptionTask"  placeholder="input you task"></textarea>
+                         <div class="form-buttons">
+                                <input class="inpBtn" type="submit" value="Save Task">
+                                <button type="button" class="updateTask"> Update </button>
+                                <button type="button" class="deleteBtn">Delete</button>
+                         </div>
             </form>
-            <button class="draftBtn">Сохранить в драфт</button>
-            <button class="deleteBtn">Удалить</button>
-        </main>
-    </div> -->
+        </section>
+    </main>
 </body>
 </html>
