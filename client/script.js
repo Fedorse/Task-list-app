@@ -3,60 +3,86 @@ import { creatTask, removeTask, updateTask, getTasks } from '/api/tasksApi.js';
 document.addEventListener('DOMContentLoaded', () => {
 
     const form = document.querySelector('.add-task');
-    const list = document.querySelector('.list')
-    const remove = document.querySelector('.deleteBtn')
-    const update = document.querySelector('.updateTask')
+    const listTask = document.querySelector('.list-task')
+    const removeButton = document.querySelector('.deleteBtn')
+    const updateButton = document.querySelector('.updateTask')
     const appTitleElement = document.querySelector('.app-title');
-
     const titleInput = form.elements['titlTask'];
     const descriptionInput = form.elements['descriptionTask'];
-    
+
     let currentSelectedTaskId = null;
+    let currentSelectedElement = null;
 
-    const updateAppTitle = () => {
-        appTitleElement.innerHTML = titleInput.value;
-    };
-
+    
+    const updateAppTitle = () => appTitleElement.innerHTML = titleInput.value;
     titleInput.addEventListener('input', updateAppTitle);
+    
+
+    const selectTaskItem = (item) => {
+            if ( currentSelectedElement ) {
+                currentSelectedElement.classList.remove('selected')
+            }
+            item.classList.add('selected');
+            currentSelectedElement = item;
+    } 
 
 
     const handleTaskItemClick = (event) => {
             const item = event.target.closest('.task');
-            if (item) {
-        document.querySelectorAll('.task').forEach(task => {
-            task.classList.remove('selected');
-        });
+            clearValidation()
+            if (!item) return
 
-        item.classList.add('selected');
+            selectTaskItem(item)
 
-                const { title, description, id: taskId } = item.dataset;
-                currentSelectedTaskId = taskId; 
+            const { title, description, id: taskId } = item.dataset;
+            currentSelectedTaskId = taskId; 
+
+            if (taskId === 'new-task') {
+                titleInput.value = 'New task';
+                descriptionInput.value = '';
+                appTitleElement.textContent = 'New task';
+                item.style.backgroundImage = 'none';
+
+            } else {
                 titleInput.value = title;
                 descriptionInput.value = description;
                 appTitleElement.textContent = title;
-
             }
-    };
+     }
+            listTask.addEventListener('click', handleTaskItemClick);
 
 
-    const addClickHandlerToListItems = () => {
-        list.addEventListener('click', handleTaskItemClick);
-    };
-
-    const renderTasks = async () => {
-        const tasks = await getTasks()
-        const tasksHtml = tasks.map(task => 
-            `<li class="task" 
+    const taskTemplate = (task) => {
+        return `
+            <li class="task" 
                 data-id="${task._id}"
                 data-title="${task.titlTask}" 
                 data-description="${task.descriptionTask}">
                 <h3 class="task-title">${task.titlTask}</h3>
-            </li>`
-        ).join('');
+            </li>`;
+    };
 
-        document.querySelector('.list').innerHTML = tasksHtml;
-        addClickHandlerToListItems()
+
+    const renderTasks = async () => {
+        try {
+            let tasks = await getTasks()
+
+            const newTask = { _id: 'new-task', titlTask: "New Task", descriptionTask: "" };
+            tasks = [newTask, ...tasks];
+
+            const tasksHtml = tasks.map(taskTemplate).join('');
+            listTask.innerHTML = tasksHtml;
+
+            const newTaskElement = listTask.querySelector(`[data-id="${newTask._id}"]`);
+            if (newTaskElement) {
+                console.log(newTask)
+            newTaskElement.click(); 
+        }
+        } catch (error) {
+            console.error('Error fetching tasks:', error);
+        }
     }
+
 
     const resetAndRenderTasks = async () => {
         currentSelectedTaskId = null;
@@ -64,57 +90,94 @@ document.addEventListener('DOMContentLoaded', () => {
         form.reset();
     };
 
-    remove.addEventListener('click', async () =>{
-        if( currentSelectedTaskId ){
-            try {
-                await removeTask(currentSelectedTaskId)
-                resetAndRenderTasks()
-            } catch (error) {
-                console.error('Error deleting task :', error)
-            }
-        } else {
-            console.error('No task selected');
-        }
-    })
 
-
-    update.addEventListener('click', async () =>{
-        if( currentSelectedTaskId ){
-            const taskData = {
-                titlTask: titleInput.value,
-                descriptionTask: descriptionInput.value
-            };
-    
-            try {
-                await updateTask(currentSelectedTaskId, taskData)
-                resetAndRenderTasks()
-            } catch (error) {
-                console.error('Error deleting task :', error)
-            }
-        } else {
-            console.error('No task selected');
-        }
-    })
-
-    const formDataToJson = formData => JSON.stringify(Object.fromEntries(formData))
-    const isValidFormData = formData => formData.get('titlTask') && formData.get('descriptionTask');
-
-    const handleSubmit = async (formData) => {
-        if (!isValidFormData(formData)) {
-            console.error('All fields are required');
+    const  handleRemoveTask = async () => {
+        if (currentSelectedTaskId === 'new-task') {
             return;
         }
+            if (currentSelectedTaskId) {
+                try {
+                    await removeTask(currentSelectedTaskId)
+                    resetAndRenderTasks()
+                } catch (error) {
+                    console.error('Error deleting task :', error)
+                }
+        }
+    }
+
+
+        const handlUpdateTask = async () => {
+            if (currentSelectedTaskId === 'new-task') {
+                return;
+            }
+            if (currentSelectedTaskId) {
+                const taskData = {
+                    titlTask: titleInput.value,
+                    descriptionTask: descriptionInput.value
+                };
+        
+                try {
+                    await updateTask(currentSelectedTaskId, taskData)
+                    resetAndRenderTasks()
+                } catch (error) {
+                    console.error('Error deleting task :', error)
+                }
+            } else {
+                console.error('No task selected');
+            }
+        }
+
+
+    removeButton.addEventListener('click',handleRemoveTask)
+    updateButton.addEventListener('click',handlUpdateTask)
+
+
+    const formDataToJson = formData => JSON.stringify(Object.fromEntries(formData))
+
+    const clearValidation = () => {
+        document.querySelectorAll('.invalid-input').forEach(element => {
+            element.classList.remove('invalid-input');
+        });
+    };
+
+    const inputsRemoveTarget = document.querySelectorAll('input, .txtArea');
+    inputsRemoveTarget.forEach(input => {
+        input.addEventListener('input', function() {
+            this.classList.remove('invalid-input');
+        });
+    });
+
+    const isValidFormData = formData => {
+        let isValid = true
+        if(!formData.get('titlTask')){
+            titleInput.classList.add('invalid-input')
+            isValid = false
+        } else {
+        titleInput.classList.remove('invalid-input')
+        }
+        if(!formData.get('descriptionTask')){
+            descriptionInput.classList.add('invalid-input')
+            isValid = false
+        } else {
+        descriptionInput.classList.remove('invalid-input')
+        }
+        return isValid;
+    }
+
     
+    const handleSubmit = async (formData) => {
+        if (!isValidFormData(formData)) {
+            return 
+        }
+
         try {
             const data = formDataToJson(formData);
             await creatTask(data);
-            await renderTasks();
-            form.reset()
+            resetAndRenderTasks()
         } catch (error) {
             console.error('Error:', error);
         }
     };
-
 
 
     form.addEventListener('submit', async (event) => {
@@ -124,4 +187,5 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     
     renderTasks()
+
 })

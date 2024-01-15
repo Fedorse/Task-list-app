@@ -6,23 +6,26 @@
     <script defer type="module" src="script.js"></script>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-    <title>ToDoList</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;1,100&display=swap" rel="stylesheet">    <title>ToDoList</title>
 </head>
 <body>
-    <main>
-        <ol class="list"></ol>
-        <section>
+    <main class="main-container">
+        <ol class="list-task"></ol>
+        <section class="section-container">
             <div class="app-title"></div>
             <form  class="add-task" method="post">
-                    <input class="title" type="text" name="titlTask" placeholder="input you title"  />
-                    <textarea class="txtArea"   rows="6" name="descriptionTask"  placeholder="input you task"></textarea>
+                    <div class="content">
+                        <input class="title" type="text" autocomplete="off" name="titlTask" placeholder="input you title"  />
+                        <textarea class="txtArea" maxlength="200"  rows="9" name="descriptionTask"  placeholder="input you task"  ></textarea>
+                    </div>
                          <div class="form-buttons">
-                                <input class="inpBtn" type="submit" value="Save Task">
-                                <button type="button" class="updateTask"> Update </button>
+                                <input class="inpBtn" type="submit" value="Save task">
+                                <button type="button" class="updateTask"> Archive </button>
                                 <button type="button" class="deleteBtn">Delete</button>
                          </div>
             </form>
         </section>
+        <div id="toastContainer" class="toast-container"></div>
     </main>
 </body>
 </html>
