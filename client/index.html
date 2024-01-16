@@ -13,10 +13,10 @@
         <ol class="list-task"></ol>
         <section class="section-container">
             <div class="app-title"></div>
-            <form  class="add-task" method="post">
-                    <div class="content">
-                        <input class="title" type="text" autocomplete="off" name="titlTask" placeholder="input you title"  />
-                        <textarea class="txtArea" maxlength="200"  rows="9" name="descriptionTask"  placeholder="input you task"  ></textarea>
+            <form  class="form-task" method="post">
+                    <div class="content-inp">
+                        <input class="title-inp" type="text" autocomplete="off" name="titlTask" placeholder="input you title"  />
+                        <textarea class="area-inp" maxlength="200"  rows="9" name="descriptionTask"  placeholder="input you task"  ></textarea>
                     </div>
                          <div class="form-buttons">
                                 <input class="inpBtn" type="submit" value="Save task">
@@ -25,7 +25,7 @@
                          </div>
             </form>
         </section>
-        <div id="toastContainer" class="toast-container"></div>
+        <div  class="toast" id ="toast" ></div>
     </main>
 </body>
 </html>

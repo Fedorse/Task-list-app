@@ -2,7 +2,7 @@ import { creatTask, removeTask, updateTask, getTasks } from '/api/tasksApi.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const form = document.querySelector('.add-task');
+    const form = document.querySelector('.form-task');
     const listTask = document.querySelector('.list-task')
     const removeButton = document.querySelector('.deleteBtn')
     const updateButton = document.querySelector('.updateTask')
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSelectedElement = null;
 
     
-    const updateAppTitle = () => appTitleElement.innerHTML = titleInput.value;
+    const updateAppTitle = () => appTitleElement.textContent = titleInput.value;
     titleInput.addEventListener('input', updateAppTitle);
     
 
@@ -75,9 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const newTaskElement = listTask.querySelector(`[data-id="${newTask._id}"]`);
             if (newTaskElement) {
-                console.log(newTask)
             newTaskElement.click(); 
         }
+
+        document.querySelectorAll('.task').forEach(task => {
+            const taskId = task.dataset.id;
+            if (localStorage.getItem(taskId) === 'completed') {
+                task.classList.add('completed-task');
+            }
+        });
+    
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }
@@ -90,6 +97,14 @@ document.addEventListener('DOMContentLoaded', () => {
         form.reset();
     };
 
+    const showToast = (message) => {
+        let toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
+    };
 
     const  handleRemoveTask = async () => {
         if (currentSelectedTaskId === 'new-task') {
@@ -98,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentSelectedTaskId) {
                 try {
                     await removeTask(currentSelectedTaskId)
+                    showToast('Task remove')
                     resetAndRenderTasks()
                 } catch (error) {
                     console.error('Error deleting task :', error)
@@ -106,24 +122,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-        const handlUpdateTask = async () => {
+        const handlUpdateTask = () => {
+
             if (currentSelectedTaskId === 'new-task') {
                 return;
             }
+
+            const selectedTaskElement = document.querySelector(`.task[data-id="${currentSelectedTaskId}"]`);
             if (currentSelectedTaskId) {
-                const taskData = {
-                    titlTask: titleInput.value,
-                    descriptionTask: descriptionInput.value
-                };
+                selectedTaskElement.classList.toggle('completed-task');
+                showToast('Task arhive')
+                localStorage.setItem(currentSelectedTaskId, 'completed');
+
+                // resetAndRenderTasks()
+
+                // const taskData = {
+                //     titlTask: titleInput.value,
+                //     descriptionTask: descriptionInput.value
+                // };
         
-                try {
-                    await updateTask(currentSelectedTaskId, taskData)
-                    resetAndRenderTasks()
-                } catch (error) {
-                    console.error('Error deleting task :', error)
-                }
-            } else {
-                console.error('No task selected');
+                // try {
+                //     await updateTask(currentSelectedTaskId, taskData)
+                //     showToast()
+                //     resetAndRenderTasks()
+                // } catch (error) {
+                //     console.error('Error deleting task :', error)
+                // }
+            // } else {
+            //     console.error('No task selected');
             }
         }
 
@@ -140,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const inputsRemoveTarget = document.querySelectorAll('input, .txtArea');
+    const inputsRemoveTarget = document.querySelectorAll('.title-inp, .area-inp');
     inputsRemoveTarget.forEach(input => {
         input.addEventListener('input', function() {
             this.classList.remove('invalid-input');
@@ -173,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const data = formDataToJson(formData);
             await creatTask(data);
+            showToast('Task save')
             resetAndRenderTasks()
         } catch (error) {
             console.error('Error:', error);
