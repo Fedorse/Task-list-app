@@ -17,6 +17,6 @@ connectToDb().then(() => {
     server.listen(port, () => {
         console.log(`Server listening on port ${port}`);
     });
-}).catch(err => {
+}).catch(err => { 
     console.error('Database connection failed', err);
 });

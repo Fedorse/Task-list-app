@@ -155,15 +155,17 @@ input:focus, .area-inp:focus {
     transition: all 0.3s ease;
 }
 
-.inpBtn:hover, .deleteBtn:hover, .updateTask:hover {
-    background-color: #323233;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transform: translateY(-2px);
-}
-.inpBtn:active, .deleteBtn:active, .updateTask:active {
-    transform: translateY(2px); 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
+
+    .inpBtn:hover, .deleteBtn:hover, .updateTask:hover {
+        background-color: #323233;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        transform: translateY(-2px);
+    }
+    .inpBtn:active, .deleteBtn:active, .updateTask:active {
+        transform: translateY(2px); 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
 
 .invalid-input {
     border-color: rgb(248,81,73);
