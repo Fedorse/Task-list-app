@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const titleInput = form.elements['titlTask'];
     const descriptionInput = form.elements['descriptionTask'];
 
+
     let currentSelectedTaskId = null;
     let currentSelectedElement = null;
 

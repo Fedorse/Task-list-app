@@ -8,6 +8,7 @@ exports.getTasks = async (req, res) => {
 
         res.json(tasks);
     } catch (error) {
+        
         res.status(500).send(err.message);
     }
 };
