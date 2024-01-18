@@ -1,17 +1,13 @@
 const { getDb } = require('../db');
 const { ObjectId } = require('mongodb');
-// const logger = require('../logger');
 
 exports.getTasks = async (req, res) => {
     try {
-        // logger.info(`Fetching all tasks`);
         const db = getDb();
         const tasks = await db.collection('taskList').find({}).toArray();
 
-        // logger.debug(`Fetched ${tasks.length} tasks`);
         res.json(tasks);
     } catch (error) {
-        // logger.error(`Error fetching tasks: ${error.message}`);
         res.status(500).send(err.message);
     }
 };
@@ -73,7 +69,6 @@ exports.removeTask = async (req, res) => {
     }
         res.status(200).send('Task successfuly deleted')
     } catch (error) {
-    // logger.error(`Error fetching tasks: ${error.message}`);
     res.status(500).send(err.message)
     }
 }
