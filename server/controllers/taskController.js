@@ -1,14 +1,16 @@
 const { getDb } = require('../db');
 const { ObjectId } = require('mongodb');
 
+
 exports.getTasks = async (req, res) => {
     try {
         const db = getDb();
-        const tasks = await db.collection('taskList').find({}).toArray();
+        const userId = req.cookies['user_id'];
+        const tasks = await db.collection('taskList').find({userId}).toArray();
 
         res.json(tasks);
     } catch (error) {
-        
+
         res.status(500).send(err.message);
     }
 };
@@ -16,7 +18,13 @@ exports.getTasks = async (req, res) => {
 exports.addTask = async (req, res) => {
     try {
         const db = getDb();
-        const result = await db.collection('taskList').insertOne(req.body);
+        const userId = req.cookies['user_id'];
+        const taskData = {
+            ...req.body,
+            userId: userId
+        };
+
+        const result = await db.collection('taskList').insertOne(taskData);
 
         res.status(201).json(result);
     } catch (error) {
