@@ -15,7 +15,9 @@ server.use(cookieParser())
 server.use((req, res, next) => {
     if (!req.cookies['user_id']) {
       const userId = uuidv4();
-      res.cookie('user_id', userId, { httpOnly: true, secure: true });
+      res.cookie('user_id', userId, { httpOnly: true});
+      // bug phone
+      // req.cookies['user_id'] = userId
     }
     next();
   });  

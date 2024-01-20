@@ -6,12 +6,11 @@ exports.getTasks = async (req, res) => {
     try {
         const db = getDb();
         const userId = req.cookies['user_id'];
-        const tasks = await db.collection('taskList').find({userId}).toArray();
+        const tasks = await db.collection('taskList').find({userId}).sort({ date: -1 }).toArray();
 
         res.json(tasks);
     } catch (error) {
-
-        res.status(500).send(err.message);
+        res.status(500).send(error.message);
     }
 };
 
@@ -19,16 +18,23 @@ exports.addTask = async (req, res) => {
     try {
         const db = getDb();
         const userId = req.cookies['user_id'];
+        console.log('userId', req.cookies['user_id']);
+
         const taskData = {
             ...req.body,
+            date: new Date(),
             userId: userId
         };
+        // const taskData = {
+        //     ...req.body,
+        //     userId: userId,
+        //     date: new Date(req.body.date) // Получаем дату из запроса
+        // };
 
         const result = await db.collection('taskList').insertOne(taskData);
 
         res.status(201).json(result);
     } catch (error) {
-
         res.status(500).send(err.message);
     }
 };
@@ -52,8 +58,10 @@ exports.updateTaskByID = async(req,res) => {
     try{
         const db = getDb()
         const taskId = new ObjectId(req.params.id);
+        const userId = req.cookies['user_id']; 
+
         const result = await db.collection('taskList').updateOne (
-            { _id: taskId },
+            { _id: taskId, userId: userId },
             { $set: req.body }
         )
 
@@ -71,7 +79,9 @@ exports.removeTask = async (req, res) => {
     try {
         const db = getDb()
         const taskId = new ObjectId(req.params.id);
-        const result = await db.collection('taskList').deleteOne({ _id: taskId });
+        const userId = req.cookies['user_id']; 
+
+        const result = await db.collection('taskList').deleteOne({ _id: taskId, userId: userId });
 
         if (result.deletedCount === 0) {
             return res.status(404).send('Task not found');
