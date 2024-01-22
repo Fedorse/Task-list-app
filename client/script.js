@@ -2,14 +2,25 @@ import { creatTask, removeTask, updateTask, getTasks } from '/api/tasksApi.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const form = document.querySelector('.form-task');
+    const form = document.querySelector('.app__task-form');
     const titleInput = form.elements['titlTask'];
     const descriptionInput = form.elements['descriptionTask'];
-    const listTask = document.querySelector('.list-task')
-    const removeButton = document.querySelector('.deleteBtn')
-    const arhiveButton = document.querySelector('.updateTask')
-    const appTitleElement = document.querySelector('.app-title');
+    const listTask = document.querySelector('.app__task-list')
+    const removeButton = document.querySelector('.app__task-form-delete')
+    const arhiveButton = document.querySelector('.app__task-form-archive')
+    const appTitleElement = document.querySelector('.app__title');
 
+    document.body.classList.add('dark-theme');
+    const themeToggle = document.querySelector('.app__theme-button');
+    themeToggle.addEventListener('click', function() {
+    if (document.body.classList.contains('dark-theme')) {
+        document.body.classList.remove('dark-theme');
+        document.body.classList.add('light-theme');
+    } else {
+        document.body.classList.remove('light-theme');
+        document.body.classList.add('dark-theme');
+    }
+});
 
 
     let currentSelectedTaskId = null;
@@ -22,16 +33,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const selectTaskItem = (item) => {
             if ( currentSelectedElement ) {
-                currentSelectedElement.classList.remove('selected')
+                currentSelectedElement.classList.remove('app__task-list-item--selected')
             }
-            item.classList.add('selected');
+            item.classList.add('app__task-list-item--selected');
             currentSelectedElement = item;
     } 
 
 
     const handleTaskItemClick = (event) => {
-        console.log('handleTaskItemClick called')
-            const item = event.target.closest('.task');
+            const item = event.target.closest('.app__task-list-item');
             clearValidation()
             if (!item) return
 
@@ -45,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 titleInput.value = 'New task';
                 descriptionInput.value = '';
                 appTitleElement.textContent = 'New task';
-                item.style.backgroundImage = 'none';
+
 
             } else {
                 titleInput.value = title;
@@ -53,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 appTitleElement.textContent = title;
 
             }
-            const isCompleted = item.classList.contains('completed-task');
+            const isCompleted = item.classList.contains('app__task-list-item--completed');
             arhiveButton.textContent = isCompleted ? 'Unarhive' : 'Arhive';
      }
             listTask.addEventListener('click', handleTaskItemClick);
@@ -61,11 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const taskTemplate = (task) => {
         return `
-            <li class="task" 
+             <li class="app__task-list-item" 
                 data-id="${task._id}"
                 data-title="${task.titlTask}" 
                 data-description="${task.descriptionTask}">
-                <h3 class="task-title">${task.titlTask}</h3>
+                <h3 class="app__task-list-item-title">${task.titlTask}</h3>
             </li>`;
     };
 
@@ -73,15 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const startOfDay = (date) => {
         const newDate = new Date(date)
         newDate.setHours(0, 0, 0, 0)
-        console.log('date today:',newDate)
         return newDate
     }
 
     const getYesterday = () => {
         const yesterday = new Date()
         yesterday.setDate(yesterday.getDate()-1 )
-        console.log('date yesterday:', yesterday)
-        console.log('date yesterday + startOfDay:',startOfDay(yesterday))
         return startOfDay(yesterday)
     }
 
@@ -103,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const generateTaskHtml = (tasks, title) => {
         if (tasks.length > 0) {
-            return `<h1>${title}</h1>` + tasks.map(taskTemplate).join('')
+            return `<h1 class ='app__task-title-date'>${title}</h1>` + tasks.map(taskTemplate).join('')
         }
         return ''
     }
@@ -111,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
     const renderTasks = async () => {
-        console.log('renderTasks called')
         try {
             let tasks = await getTasks();
 
@@ -138,10 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
              newTaskElement.click(); 
               }
     
-            document.querySelectorAll('.task').forEach(task => {
+            document.querySelectorAll('.app__task-list-item').forEach(task => {
                 const taskId = task.dataset.id;
                 if (localStorage.getItem(taskId) === 'completed') {
-                    task.classList.add('completed-task');
+                    task.classList.add('app__task-list-item--completed');
                     if (taskId === currentSelectedTaskId) {
                         arhiveButton.textContent = 'Unarhive';
                     }
@@ -189,10 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
         }
 
-        const selectedTaskElement = document.querySelector(`.task[data-id="${currentSelectedTaskId}"]`);
-        selectedTaskElement.classList.toggle('completed-task');
+        const selectedTaskElement = document.querySelector(`.app__task-list-item[data-id="${currentSelectedTaskId}"]`);
+        selectedTaskElement.classList.toggle('app__task-list-item--completed');
 
-        const wasArchived = selectedTaskElement.classList.contains('completed-task')
+        const wasArchived = selectedTaskElement.classList.contains('app__task-list-item--completed')
         localStorage.setItem(currentSelectedTaskId, wasArchived ? 'completed' : '');
         arhiveButton.textContent = wasArchived ? 'Unarhive' : 'Arhive'
 
@@ -213,11 +219,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const inputsRemoveTarget = document.querySelectorAll('.title-inp, .area-inp');
+    const inputsRemoveTarget = document.querySelectorAll('.app__task-title-input, .app__task-description-textarea');
     inputsRemoveTarget.forEach(input => {
         input.addEventListener('input', function() {
             this.classList.remove('invalid-input');
-            // this.classList.add('valid-input')
         });
     });
 

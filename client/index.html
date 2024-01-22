@@ -6,25 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script defer type="module" src="script.js"></script>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100&display=swap" rel="stylesheet"></head>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100&display=swap" rel="stylesheet">
+</head>
 <body>
-    <main class="main-container">
-        <ol class="list-task"></ol>
-        <section class="section-container">
-            <div class="app-title"></div>
-            <form  class="form-task" method="post">
-                    <div class="content-inp">
-                        <input class="title-inp" type="text" autocomplete="off" name="titlTask" placeholder="input you title"  />
-                        <textarea class="area-inp" maxlength="2000"  rows="9" name="descriptionTask"  placeholder="input you task"  ></textarea>
+   <main class="app-container">
+        <ol class="app__task-list"></ol>
+        <section class="app__content">
+            <div class="app__theme-switcher">
+                <button class="app__theme-button"></button>
+            </div>
+            <div class="app__title"></div>
+            <form  class="app__task-form" method="post">
+                    <div class="app__task-form-content">
+                        <input class="app__task-title-input" type="text" autocomplete="off" name="titlTask" placeholder="input you title"  />
+                        <textarea class="app__task-description-textarea" maxlength="2000"  rows="9" name="descriptionTask"  placeholder="input you task"  ></textarea>
                     </div>
-                         <div class="form-buttons">
-                                <input class="inpBtn" type="submit" value="Save task">
-                                <button type="button" class="updateTask"> Arhive </button>
-                                <button type="button" class="deleteBtn">Delete</button>
+                         <div class="app__task-form-buttons">
+                                <input class="app__task-form-submit" type="submit" value="Save task">
+                                <button type="button" class="app__task-form-archive"> Arhive </button>
+                                <button type="button" class="app__task-form-delete">Delete</button>
                          </div>
             </form>
         </section>
-        <div  class="toast" id ="toast" ></div>
+        <div  class="app__toast" id ="toast" ></div>
     </main>
 </body>
-</html>
+</html> 
