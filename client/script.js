@@ -9,9 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const removeButton = document.querySelector('.app__task-form-delete')
     const arhiveButton = document.querySelector('.app__task-form-archive')
     const appTitleElement = document.querySelector('.app__title');
+    const themeToggle = document.querySelector('.app__theme-button');
+
+    let currentSelectedTaskId = null;
+    let currentSelectedElement = null;
 
     document.body.classList.add('dark-theme');
-    const themeToggle = document.querySelector('.app__theme-button');
+
     themeToggle.addEventListener('click', function() {
     if (document.body.classList.contains('dark-theme')) {
         document.body.classList.remove('dark-theme');
@@ -21,10 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('dark-theme');
     }
 });
-
-
-    let currentSelectedTaskId = null;
-    let currentSelectedElement = null;
 
     
     const updateAppTitle = () => appTitleElement.textContent = titleInput.value;
