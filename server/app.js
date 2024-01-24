@@ -8,7 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 
 
 const server = express();
-const port = "0.0.0.0";
+const port = 4000;
 
 server.use(pinoMiddleware);
 server.use(cookieParser())
