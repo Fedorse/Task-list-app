@@ -196,11 +196,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const selectedTaskElement = document.querySelector(`.app__task-list-item[data-id="${currentSelectedTaskId}"]`);
-        selectedTaskElement.classList.toggle('app__task-list-item--completed');
+            selectedTaskElement.classList.toggle('app__task-list-item--completed');
 
         const wasArchived = selectedTaskElement.classList.contains('app__task-list-item--completed')
-        localStorage.setItem(currentSelectedTaskId, wasArchived ? 'completed' : '');
-        arhiveButton.textContent = wasArchived ? 'Unarhive' : 'Arhive'
+            localStorage.setItem(currentSelectedTaskId, wasArchived ? 'completed' : '');
+            arhiveButton.textContent = wasArchived ? 'Unarhive' : 'Arhive'
 
         showToast(wasArchived ? 'Task archived' : 'Task unarchived')
 
